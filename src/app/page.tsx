@@ -1,11 +1,10 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import UserCard from "@/components/UserCard";
 import { cleanUser } from "@/libs/cleanUser";
 import { UserCardProps } from "@/libs/types";
-import { useEffect } from "react";
 
 export default function RandomUserPage() {
   // annotate type for users state variable
@@ -23,15 +22,15 @@ export default function RandomUserPage() {
       }
     const jsonStr = JSON.stringify(genAmount);
     localStorage.setItem('genAmount', jsonStr);
-  },[genAmount]);
+  }, [genAmount]);
 
   useEffect(() => {
     const jsonStr = localStorage.getItem('genAmount');
-    if(jsonStr !== null){
+    if (jsonStr !== null){
       const newGenAmount = JSON.parse(jsonStr);
       setGenAmount(newGenAmount);
     }
-  },[])
+  }, [])
 
   const generateBtnOnClick = async () => {
     setIsLoading(true);
@@ -66,7 +65,7 @@ export default function RandomUserPage() {
       {isLoading && (
         <p className="display-6 text-center fst-italic my-4">Loading ...</p>
       )}
-      {users && !isLoading && users.map((user) => (<UserCard {...user} />))}
+      {users && !isLoading && users.map((user, index) => (<UserCard key = {index} {...user} />))}
     </div>
   );
 }
